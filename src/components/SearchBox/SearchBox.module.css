@@ -1,0 +1,7 @@
+const SearchBox = () => {
+    return (
+      <input type="text" placeholder="Search contacts..." />
+    );
+  };
+  
+  export default SearchBox;
