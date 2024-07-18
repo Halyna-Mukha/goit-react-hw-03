@@ -1,32 +1,55 @@
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import s from "./ContactForm.module.css";
+import * as Yup from "yup";
+import { nanoid } from "nanoid";
 import { useId } from "react";
 
-const ContactForm = () => {
+const ContactForm = ({ onAddContact }) => {
   const nameFieldId = useId();
   const numberFieldId = useId();
 
   const initialValues = {
-    username: "",
+    name: "",
     number: "",
   };
 
+  const contactSchema = Yup.object({
+    name: Yup.string()
+      .required("Required")
+      .min(3, "Must be at least 3 characters")
+      .max(50, "Must be 50 characters or less"),
+    number: Yup.string()
+      .required("Required")
+      .min(3, "Must be at least 3 characters")
+      .max(50, "Must be 50 characters or less"),
+  });
+
   const handleSubmit = (values, actions) => {
-    console.log(values);
+    const newContact = {
+      id: nanoid(),
+      name: values.name,
+      number: values.number,
+    };
+    onAddContact(newContact);
     actions.resetForm();
   };
 
   return (
     <div>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={contactSchema}
+        onSubmit={handleSubmit}
+      >
         <Form className={s.form}>
           <label htmlFor={nameFieldId}>Name</label>
           <Field
             className={s.field}
             type="text"
-            name="username"
+            name="name"
             id={nameFieldId}
           />
+          <ErrorMessage name="name" component="div" className={s.error} />
 
           <label htmlFor={numberFieldId}>Number</label>
           <Field
@@ -35,11 +58,11 @@ const ContactForm = () => {
             name="number"
             id={numberFieldId}
           />
-          <div>
-            <button className={s.btn} type="submit">
-              Add contact
-            </button>
-          </div>
+          <ErrorMessage name="number" component="div" className={s.error} />
+
+          <button className={s.btn} type="submit">
+            Add contact
+          </button>
         </Form>
       </Formik>
     </div>

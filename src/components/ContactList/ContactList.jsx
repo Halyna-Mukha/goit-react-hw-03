@@ -1,8 +1,14 @@
-const ContactList = () => {
+import Contact from "./Contact/Contact";
+import s from './ContactList.module.css'
+
+const ContactList = ({ contacts, onDelete }) => {
   return (
-    <ul>
-      <li>John Doe</li>
-      <li>Jane Doe</li>
+    <ul className={s.container}>
+      {contacts.map((contact) => (
+        <li className={s.item} key={contact.id}>
+          <Contact contact={contact} onDelete={onDelete} />
+        </li>
+      ))}
     </ul>
   );
 };

@@ -1,7 +1,12 @@
-const SearchBox = () => {
-    return (
-      <input type="text" placeholder="Search contacts..." />
-    );
-  };
-  
-  export default SearchBox;
+.form {
+  margin-top: 30px;
+  width: 300px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.input {
+  width: 100%;
+  border: 2px solid gray;
+  border-radius: 4px;
+  height: 20px;
+}
